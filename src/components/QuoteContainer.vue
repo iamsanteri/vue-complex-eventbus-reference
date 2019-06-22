@@ -36,11 +36,13 @@
                 // The template passes index as the second parameter to avoid indexOf, 
                 // it will be better for the performance especially for one large array
                 // (because indexOf actually loop the array to do the match)
-                this.quotesArray.splice(index, 1)
-                EventBus.$emit("minusOne", this.one)
+                this.quotesArray.splice(index, 1);
+                EventBus.$emit("minusOne", this.one);
+                this.alertVisible = false;
+
                 } else {
-                    let found = this.quotesArray.indexOf(item)
-                    this.quotesArray.splice(found, 1)
+                    let found = this.quotesArray.indexOf(item);
+                    this.quotesArray.splice(found, 1);
                 }
             }
         },
