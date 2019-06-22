@@ -21,7 +21,8 @@
         progressClasses: [],
         appQuotes: [],
         receivedQuote: "", 
-        width: 0
+        width: 0,
+        alertVisible: false
       }
     },
     methods: {
@@ -36,7 +37,17 @@
           this.appQuotes.push(payload);
         } else {
           console.log("You are out of space for quotes!");
+          this.alertVisible = true; 
+          this.emitAlert();
         }
+      },
+      emitAlert() {
+
+        // Emit truthy alert to EventBus
+        EventBus.$emit("alertOn", this.alertVisible);
+      },
+      refreshTopLevelArray(newArray) {
+        this.appQuotes = newArray;
       }
     },
     components: {
@@ -46,6 +57,12 @@
     mounted () {
       EventBus.$on("quoteSent", (payload) => {
         this.setUpQuote(payload);
+      });
+      EventBus.$on("ArrayDeletion", (arrayPayload) => {
+        this.refreshTopLevelArray(arrayPayload);
+      });
+      EventBus.$on("minusOne", (payload) => {
+        this.width = this.width - payload; 
       });
     }
   }
